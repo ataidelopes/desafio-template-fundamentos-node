@@ -10,16 +10,16 @@ var CreateTransactionService = /** @class */ (function () {
     }
     CreateTransactionService.prototype.execute = function (_a) {
         var title = _a.title, value = _a.value, type = _a.type;
-        this.validarSaldo(value, type);
-        var transaction = new Transaction_1.default({ title: title, value: value, type: type });
-        this.transactionsRepository.create(transaction);
-        return transaction;
-    };
-    CreateTransactionService.prototype.validarSaldo = function (value, type) {
+        if (!['income', 'outcome'].includes(type)) {
+            throw new Error('Transaction type is invalid');
+        }
         var total = this.transactionsRepository.getBalance().total;
         if (type === 'outcome' && total < value) {
             throw new Error('You do not have enough balance');
         }
+        var transaction = new Transaction_1.default({ title: title, value: value, type: type });
+        this.transactionsRepository.create(transaction);
+        return transaction;
     };
     return CreateTransactionService;
 }());

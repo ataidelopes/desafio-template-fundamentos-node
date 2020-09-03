@@ -10,9 +10,9 @@ var transactionRouter = express_1.Router();
 var transactionsRepository = new TransactionsRepository_1.default();
 transactionRouter.get('/', function (request, response) {
     try {
-        var transaction = transactionsRepository.all();
+        var transactions = transactionsRepository.all();
         var balance = transactionsRepository.getBalance();
-        return response.json({ transaction: transaction, balance: balance });
+        return response.json({ transactions: transactions, balance: balance });
     }
     catch (err) {
         return response.status(400).json({ error: err.message });
